@@ -26,6 +26,12 @@ except Exception as e:
     logger.error(f"Failed to initialize OpenAI client: {e}")
     raise
 
+# Handle root endpoint
+@app.route('/')
+def home():
+    logger.info("Received request to root endpoint")
+    return "Webhook server is running", 200
+
 # Verify webhook from Facebook
 @app.route('/webhook', methods=['GET'])
 def verify():
@@ -74,7 +80,7 @@ def get_ai_reply(user_message):
         response = client.chat.completions.create(
             model="gpt-3.5-turbo",
             messages=[{"role": "user", "content": prompt}],
-            max_tokens=150  # Limit response length
+            max_tokens=150
         )
         reply = response.choices[0].message.content.strip()
         logger.info(f"Generated AI reply: {reply}")
@@ -89,12 +95,12 @@ def get_ai_reply(user_message):
 # Send message back to Facebook
 def send_message(recipient_id, message_text):
     try:
-        url = 'https://graph.facebook.com/v20.0/me/messages'  # Updated to latest API version
+        url = 'https://graph.facebook.com/v20.0/me/messages'
         headers = {'Content-Type': 'application/json'}
         params = {'access_token': PAGE_ACCESS_TOKEN}
         payload = {
             'recipient': {'id': recipient_id},
-            'message': {'text': message_text[:2000]}  # Facebook message limit
+            'message': {'text': message_text[:2000]}
         }
         response = requests.post(url, headers=headers, params=params, json=payload)
         response.raise_for_status()
