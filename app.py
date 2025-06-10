@@ -7,7 +7,7 @@ from dotenv import load_dotenv
 from flask import Flask
 app = Flask(__name__)
 
-@app.route('/webhook')
+@app.route("/webhook", methods=["GET", "POST"])
 def home():
     return "Chào mừng đến với chatbot!"
 
