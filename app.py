@@ -3,6 +3,13 @@ import requests
 import openai
 import os
 from dotenv import load_dotenv
+from flask import Flask
+
+app = Flask(__name__)
+
+@app.route("/")
+def home():
+    return "Hello, this is your chatbot API!"
 
 load_dotenv()
 
