@@ -1,4 +1,4 @@
-gunicorn
+gunicorn app:app -b 0.0.0.0:$PORT --workers 2
 flask==2.3.3
 requests==2.31.0
 python-dotenv==1.0.1
