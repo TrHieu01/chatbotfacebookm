@@ -39,10 +39,15 @@ OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
 client = None
 if OPENAI_API_KEY:
     try:
-        client = OpenAI(api_key=OPENAI_API_KEY)
+        client = OpenAI(
+            api_key=OPENAI_API_KEY,
+            timeout=30.0,  # Timeout cho requests
+            max_retries=2  # Số lần retry
+        )
         logger.info("OpenAI client initialized successfully")
     except Exception as e:
         logger.error(f"Failed to initialize OpenAI client: {e}")
+        client = None
 
 # Cache cho context data
 context_cache = None
@@ -240,8 +245,7 @@ Hãy trả lời một cách thân thiện, hữu ích và ngắn gọn. Nếu k
                 {"role": "user", "content": prompt}
             ],
             max_tokens=250,
-            temperature=0.7,
-            timeout=10
+            temperature=0.7
         )
         
         reply = response.choices[0].message.content.strip()
