@@ -1,8 +1,8 @@
 from flask import Flask, request
 import requests
-import openai
 import os
 from dotenv import load_dotenv
+from openai import OpenAI
 
 # Load biến môi trường từ .env
 load_dotenv()
@@ -13,10 +13,10 @@ VERIFY_TOKEN = os.getenv("VERIFY_TOKEN")
 PAGE_ACCESS_TOKEN = os.getenv("PAGE_ACCESS_TOKEN")
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
 
-openai.api_key = OPENAI_API_KEY
+client = OpenAI(api_key=OPENAI_API_KEY)
 
 # Xác minh webhook từ Facebook
-@app.route('/webhook',methods=['GET', 'POST'])
+@app.route('/webhook', methods=['GET'])
 def verify():
     if request.args.get("hub.mode") == "subscribe" and request.args.get("hub.verify_token") == VERIFY_TOKEN:
         return request.args.get("hub.challenge"), 200
@@ -42,11 +42,11 @@ def get_ai_reply(user_message):
     with open("data.txt", "r", encoding="utf-8") as f:
         context = f.read()
     prompt = f"Dữ liệu sau:\n{context}\n\nNgười dùng hỏi: {user_message}\nTrả lời ngắn gọn, dễ hiểu:"
-    response = openai.ChatCompletion.create(
+    response = client.chat.completions.create(
         model="gpt-3.5-turbo",
         messages=[{"role": "user", "content": prompt}]
     )
-    return response['choices'][0]['message']['content'].strip()
+    return response.choices[0].message.content.strip()
 
 # Gửi tin nhắn về Facebook
 def send_message(recipient_id, message_text):
