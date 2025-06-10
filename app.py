@@ -39,12 +39,20 @@ OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
 client = None
 if OPENAI_API_KEY:
     try:
-        client = OpenAI(
-            api_key=OPENAI_API_KEY,
-            timeout=30.0,  # Timeout cho requests
-            max_retries=2  # Số lần retry
-        )
+        # Thử khởi tạo với cách đơn giản nhất
+        client = OpenAI(api_key=OPENAI_API_KEY)
         logger.info("OpenAI client initialized successfully")
+    except TypeError as e:
+        logger.error(f"OpenAI client initialization failed with TypeError: {e}")
+        # Thử khởi tạo với cách cũ hơn
+        try:
+            import openai
+            openai.api_key = OPENAI_API_KEY
+            logger.info("Using legacy OpenAI configuration")
+            client = "legacy"  # Đánh dấu sử dụng legacy mode
+        except Exception as e2:
+            logger.error(f"Legacy OpenAI setup also failed: {e2}")
+            client = None
     except Exception as e:
         logger.error(f"Failed to initialize OpenAI client: {e}")
         client = None
@@ -235,20 +243,39 @@ Câu hỏi của khách hàng: {user_message}
 
 Hãy trả lời một cách thân thiện, hữu ích và ngắn gọn. Nếu không tìm thấy thông tin phù hợp, hãy nói rõ và đưa ra lời khuyên chung."""
 
-        response = client.chat.completions.create(
-            model="gpt-3.5-turbo",
-            messages=[
-                {
-                    "role": "system", 
-                    "content": "Bạn là trợ lý khách hàng thân thiện, chuyên nghiệp. Trả lời bằng tiếng Việt, ngắn gọn và hữu ích."
-                },
-                {"role": "user", "content": prompt}
-            ],
-            max_tokens=250,
-            temperature=0.7
-        )
+        # Xử lý cho cả new client và legacy mode
+        if client == "legacy":
+            # Sử dụng cách cũ
+            import openai
+            response = openai.ChatCompletion.create(
+                model="gpt-3.5-turbo",
+                messages=[
+                    {
+                        "role": "system", 
+                        "content": "Bạn là trợ lý khách hàng thân thiện, chuyên nghiệp. Trả lời bằng tiếng Việt, ngắn gọn và hữu ích."
+                    },
+                    {"role": "user", "content": prompt}
+                ],
+                max_tokens=250,
+                temperature=0.7
+            )
+            reply = response.choices[0].message.content.strip()
+        else:
+            # Sử dụng client mới
+            response = client.chat.completions.create(
+                model="gpt-3.5-turbo",
+                messages=[
+                    {
+                        "role": "system", 
+                        "content": "Bạn là trợ lý khách hàng thân thiện, chuyên nghiệp. Trả lời bằng tiếng Việt, ngắn gọn và hữu ích."
+                    },
+                    {"role": "user", "content": prompt}
+                ],
+                max_tokens=250,
+                temperature=0.7
+            )
+            reply = response.choices[0].message.content.strip()
         
-        reply = response.choices[0].message.content.strip()
         logger.info(f"AI reply generated successfully")
         return reply
         
