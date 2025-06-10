@@ -12,6 +12,9 @@ logger = logging.getLogger(__name__)
 # Load environment variables from .env
 load_dotenv()
 
+# Disable proxy for OpenAI API
+os.environ["NO_PROXY"] = "api.openai.com"
+
 app = Flask(__name__)
 
 # Environment variables
@@ -116,6 +119,6 @@ def send_message(recipient_id, message_text):
         logger.error(f"Failed to send message to {recipient_id}: {e}")
 
 # Run the app
-if __name__ == '__main__':  
+if __name__ == '__main__':
     port = int(os.environ.get("PORT", 8080))
     app.run(host="0.0.0.0", port=port, debug=False)
