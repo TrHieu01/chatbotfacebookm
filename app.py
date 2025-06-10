@@ -4,16 +4,7 @@ import openai
 import os
 from dotenv import load_dotenv
 
-from flask import Flask
-app = Flask(__name__)
-
-@app.route("/webhook", methods=["GET", "POST"])
-def home():
-    return "Chào mừng đến với chatbot!"
-
-if __name__ == '__main__':
-    app.run(debug=True, host='0.0.0.0', port=5000)
-
+# Load biến môi trường từ .env
 load_dotenv()
 
 app = Flask(__name__)
@@ -24,12 +15,14 @@ OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
 
 openai.api_key = OPENAI_API_KEY
 
+# Xác minh webhook từ Facebook
 @app.route('/webhook', methods=['GET'])
 def verify():
     if request.args.get("hub.mode") == "subscribe" and request.args.get("hub.verify_token") == VERIFY_TOKEN:
         return request.args.get("hub.challenge"), 200
     return "Verification token mismatch", 403
 
+# Nhận tin nhắn từ người dùng
 @app.route('/webhook', methods=['POST'])
 def webhook():
     data = request.get_json()
@@ -44,6 +37,7 @@ def webhook():
                         send_message(sender_id, reply)
     return "ok", 200
 
+# Gửi câu trả lời từ GPT
 def get_ai_reply(user_message):
     with open("data.txt", "r", encoding="utf-8") as f:
         context = f.read()
@@ -54,6 +48,7 @@ def get_ai_reply(user_message):
     )
     return response['choices'][0]['message']['content'].strip()
 
+# Gửi tin nhắn về Facebook
 def send_message(recipient_id, message_text):
     url = 'https://graph.facebook.com/v16.0/me/messages'
     headers = {'Content-Type': 'application/json'}
@@ -64,5 +59,6 @@ def send_message(recipient_id, message_text):
     }
     requests.post(url, headers=headers, params=params, json=payload)
 
-if __name__ == "__main__":
+# Chạy app
+if __name__ == '__main__':
     app.run(host="0.0.0.0", port=int(os.environ.get("PORT", 5000)))
