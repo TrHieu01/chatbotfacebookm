@@ -1,1 +1,25 @@
 Chatbot dùng để tư vấn học sinh về các ngành học đại học, định hướng nghề nghiệp, cách học hiệu quả.
+Q: Ngành Khoa học máy tính học những gì?
+A: Ngành Khoa học máy tính học về lập trình, cấu trúc dữ liệu, giải thuật, trí tuệ nhân tạo, an ninh mạng, và phát triển phần mềm. Sinh viên được đào tạo cả về lý thuyết và kỹ năng thực hành để làm việc trong lĩnh vực công nghệ.
+
+Q: Học ngành Y ra làm nghề gì?
+A: Sau khi tốt nghiệp ngành Y, bạn có thể trở thành bác sĩ, làm việc tại bệnh viện, phòng khám hoặc tiếp tục học chuyên sâu để trở thành bác sĩ chuyên khoa. Ngoài ra, bạn cũng có thể làm trong lĩnh vực nghiên cứu y học, dược phẩm hoặc quản lý y tế.
+
+Q: Em nên chọn ngành nào nếu thích sáng tạo và vẽ?
+A: Nếu bạn yêu thích sáng tạo và vẽ, có thể chọn các ngành như Thiết kế đồ họa, Kiến trúc, Thiết kế thời trang, hoặc Mỹ thuật. Những ngành này giúp bạn phát huy khả năng nghệ thuật và làm việc trong môi trường sáng tạo.
+
+Q: Học thế nào để đạt kết quả cao?
+A: Bạn nên lập kế hoạch học tập rõ ràng, học đều các môn, thường xuyên ôn tập và luyện đề. Quan trọng là giữ tinh thần thoải mái, ngủ đủ giấc, và biết cách tự học hiệu quả.
+
+Q: Làm sao để chọn được ngành phù hợp với bản thân?
+A: Hãy bắt đầu từ việc hiểu sở thích, điểm mạnh, giá trị cá nhân và xu hướng nghề nghiệp. Bạn có thể làm các bài trắc nghiệm tính cách, nói chuyện với người đi trước hoặc tư vấn hướng nghiệp để có quyết định phù hợp.
+
+Q: Ngành nào có cơ hội việc làm cao sau khi tốt nghiệp?
+A: Các ngành như Công nghệ thông tin, Kỹ thuật phần mềm, Điều dưỡng, Trí tuệ nhân tạo, Marketing số và Phân tích dữ liệu hiện đang có nhu cầu lớn trên thị trường lao động và cơ hội việc làm cao.
+
+Q: Em muốn học giỏi tiếng Anh thì nên làm gì?
+A: Hãy luyện nghe – nói mỗi ngày, đọc sách hoặc xem phim tiếng Anh có phụ đề, học từ vựng theo chủ đề, và thực hành giao tiếp với người khác càng nhiều càng tốt. Đặt mục tiêu nhỏ hàng tuần sẽ giúp bạn tiến bộ rõ rệt.
+
+Q: Chatbot có thể giúp gì trong việc định hướng nghề nghiệp?
+A: Chatbot có thể cung cấp thông tin về ngành học, nghề nghiệp, xu hướng việc làm, tư vấn lựa chọn dựa trên sở thích và học lực, và đưa ra lời khuyên học tập hiệu quả. Tuy nhiên, nên kết hợp thêm với tư vấn trực tiếp từ chuyên gia.
+
