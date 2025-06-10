@@ -19,9 +19,16 @@ VERIFY_TOKEN = os.getenv("VERIFY_TOKEN")
 PAGE_ACCESS_TOKEN = os.getenv("PAGE_ACCESS_TOKEN")
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
 
+# Check for proxy environment variables
+if os.getenv("HTTP_PROXY") or os.getenv("HTTPS_PROXY"):
+    logger.warning("Proxy environment variables detected (HTTP_PROXY or HTTPS_PROXY). These may interfere with OpenAI client initialization.")
+
 # Initialize OpenAI client
 try:
+    if not OPENAI_API_KEY:
+        raise ValueError("OPENAI_API_KEY is not set")
     client = OpenAI(api_key=OPENAI_API_KEY)
+    logger.info("OpenAI client initialized successfully")
 except Exception as e:
     logger.error(f"Failed to initialize OpenAI client: {e}")
     raise
@@ -40,7 +47,7 @@ def verify():
         verify_token = request.args.get("hub.verify_token")
         challenge = request.args.get("hub.challenge")
         
-        if mode == "subscribe" and verify_token == verify_token:
+        if mode == "subscribe" and verify_token == VERIFY_TOKEN:
             logger.info("Webhook verification successful")
             return challenge, 200
         logger.warning("Webhook verification failed: Token mismatch")
@@ -109,6 +116,6 @@ def send_message(recipient_id, message_text):
         logger.error(f"Failed to send message to {recipient_id}: {e}")
 
 # Run the app
-if __name__ == '__main__':
-    port = int(os.environ.get("PORT", 5000))
+if __name__ == '__main__':  
+    port = int(os.environ.get("PORT", 8080))
     app.run(host="0.0.0.0", port=port, debug=False)
