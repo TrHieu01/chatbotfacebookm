@@ -4,6 +4,7 @@ import os
 import logging
 from dotenv import load_dotenv
 from openai import OpenAI
+client = OpenAI(api_key=OPENAI_API_KEY)
 import threading
 import time
 
