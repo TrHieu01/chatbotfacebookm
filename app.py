@@ -40,7 +40,7 @@ def verify():
         verify_token = request.args.get("hub.verify_token")
         challenge = request.args.get("hub.challenge")
         
-        if mode == "subscribe" and verify_token == VERIFY_TOKEN:
+        if mode == "subscribe" and verify_token == verify_token:
             logger.info("Webhook verification successful")
             return challenge, 200
         logger.warning("Webhook verification failed: Token mismatch")
@@ -110,5 +110,5 @@ def send_message(recipient_id, message_text):
 
 # Run the app
 if __name__ == '__main__':
-    port = int(os.environ.get("PORT", 8080))
+    port = int(os.environ.get("PORT", 5000))
     app.run(host="0.0.0.0", port=port, debug=False)
